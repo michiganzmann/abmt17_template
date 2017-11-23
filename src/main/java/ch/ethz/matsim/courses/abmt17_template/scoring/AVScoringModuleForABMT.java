@@ -1,4 +1,4 @@
-package ch.ethz.matsim.courses.abmt17_template;
+package ch.ethz.matsim.courses.abmt17_template.scoring;
 
 import org.matsim.core.controler.AbstractModule;
 import org.matsim.core.scoring.ScoringFunctionFactory;
