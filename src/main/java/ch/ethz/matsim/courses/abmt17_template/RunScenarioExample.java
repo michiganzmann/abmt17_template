@@ -56,6 +56,7 @@ public class RunScenarioExample {
 		String stationsPath = "scenario/stations_zuerich.csv";
 		
 		
+			
 
 		// Load the config file (command line argument)
 		Config config = ConfigUtils.loadConfig(configPath, new DvrpConfigGroup(), new AVConfigGroup());
@@ -79,7 +80,7 @@ public class RunScenarioExample {
 		// Adding electric vehicles
 		// controler.addOverridingModule(new RechargingModule());
 		controler.addOverridingModule(new NewRechargingModule());
-
+		
 		// Specify what the batteries look like and how the consumption works
 		controler.addOverridingModule(new AbstractModule() {
 			@Override
@@ -104,7 +105,6 @@ public class RunScenarioExample {
 				// Register the station reader
 				bind(StationReader.class);
 				
-
 				StationCreator creator = new StationCreator(scenario.getNetwork());
 				try {
 					creator.createFile(new File ("scenario/Gasstations.csv"));
@@ -112,6 +112,7 @@ public class RunScenarioExample {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				
 			}
 			

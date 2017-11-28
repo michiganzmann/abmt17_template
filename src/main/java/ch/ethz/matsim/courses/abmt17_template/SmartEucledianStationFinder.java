@@ -45,8 +45,8 @@ public class SmartEucledianStationFinder implements StationFinder {
 			
 		}
 		
-		for ( int i; i < count-1, i++) {
-			
+		for ( int i = 0; i < count-1; i++) {
+			possibleStation[i].get
 		}
 		
 		return selectedStation;

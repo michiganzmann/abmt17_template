@@ -38,7 +38,7 @@ public class StationCreator {
 		FileWriter filewriter = new FileWriter("scenario/stations_zuerich.csv");
 		BufferedWriter writer = new BufferedWriter( filewriter );
 		
-		writer.write("stationId,linkId,numberOfQueues,rechargeRate,x-coord,y-coord");
+		writer.write("stationId,linkId,numberOfQueues,rechargeRate,min Distance, x-coord,y-coord");
 		writer.newLine();
 		
 		String line = null;
@@ -100,7 +100,7 @@ public class StationCreator {
 					try {
 						if ( minDist < 50 ) {
 							
-							writer.write( name + "," + closeLink + "," + "1,38.4," + minDist + "," + coord.getX() + "," + coord.getY());
+							writer.write( name + "," + closeLink + "," + "1,38.4," + minDist + "," + (int)coord.getX() + "," + (int) coord.getY());
 							System.out.println(name + "," + closeLink + "," + "1,38.4," + minDist);
 							writer.newLine();
 						}
