@@ -52,8 +52,10 @@ import ch.ethz.matsim.courses.abmt17_template.scoring.AVScoringModuleForABMT;
  */
 public class RunScenarioExample {
 	static public void main(String[] args) {
-		String configPath = args[0];
-		String stationsPath = args[1];
+		String configPath = "scenario/abmt_config.xml";
+		String stationsPath = "scenario/stations_zuerich.csv";
+		
+		
 
 		// Load the config file (command line argument)
 		Config config = ConfigUtils.loadConfig(configPath, new DvrpConfigGroup(), new AVConfigGroup());
@@ -101,9 +103,22 @@ public class RunScenarioExample {
 
 				// Register the station reader
 				bind(StationReader.class);
-			}
+				
 
+				StationCreator creator = new StationCreator(scenario.getNetwork());
+				try {
+					creator.createFile(new File ("scenario/Gasstations.csv"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			
+			
 			// Provide the loaded stations
+			
 			@Provides
 			@Singleton
 			public Collection<Station> provideStations(StationReader reader) throws NumberFormatException, IOException {

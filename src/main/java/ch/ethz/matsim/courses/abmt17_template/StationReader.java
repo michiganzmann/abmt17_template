@@ -39,32 +39,39 @@ public class StationReader {
 
 	public Collection<Station> read(File path) throws NumberFormatException, IOException {
 		Set<Station> stations = new HashSet<>();
+		
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
 
+		
 		String line = null;
 		List<String> header = null;
 
 		while ((line = reader.readLine()) != null) {
-			List<String> row = Arrays.asList(line.split(";"));
+			List<String> row = Arrays.asList(line.split(","));
 
 			if (header == null) {
 				header = row;
+
 			} else {
+
+
 				Id<Station> stationId = Id.create(row.get(header.indexOf("stationId")), Station.class);
 				Id<Link> linkId = Id.createLinkId(row.get(header.indexOf("linkId")));
 
 				long numberOfQueues = Long.parseLong(row.get(header.indexOf("numberOfQueues")));
 				double rechargeRate = Double.parseDouble(row.get(header.indexOf("rechargeRate"))) / 3600.0;
-
+				
 				Link link = network.getLinks().get(linkId);
-
+				
 				stations.add(
 						new ParallelFIFO(stationId, link, new ParallelFIFOSpecification(numberOfQueues, rechargeRate),
 								consumptionTracker, eventsManager));
+
 			}
 		}
 
+		
 		reader.close();
 
 		return stations;
