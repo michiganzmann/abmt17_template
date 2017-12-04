@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.matsim.api.core.v01.Scenario;
@@ -36,7 +37,7 @@ public class RunWithEventHandler {
 		String populationPath = "scenario/abmt_population.xml.gz";
 		String networkPath = "scenario/abmt_network.xml.gz";
 		
-		String eventsPath = "scenario/80.events.xml.gz";
+		String eventsPath = "simulation_output/ITERS/it.2/2.events.xml.gz";
 		
 		
 		Config config = ConfigUtils.createConfig();
@@ -50,8 +51,6 @@ public class RunWithEventHandler {
 		
 		networkReader.readFile(networkPath);
 		
-		
-		
 		EventsManager eventsManager = EventsUtils.createEventsManager();
 		
 		
@@ -62,7 +61,7 @@ public class RunWithEventHandler {
 		StationReader reader = new StationReader(scenario.getNetwork(), tracker, eventsManager);
 		Collection<Station> stations = null;
 		try {
-			stations = reader.read(new File("scenario/stations_zuerich.csv"));
+			stations = reader.read(new File("scenario/stations_zuerich2.csv"));
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,8 +78,26 @@ public class RunWithEventHandler {
 		
 		FileWriter fileWriter = null;
 		BufferedWriter writer = null;
+		
+		
 		try {
-			fileWriter = new FileWriter("scenario/StationChargings.csv");
+			System.out.println("Writer writes StationActivity");
+			fileWriter = new FileWriter("scenario/2Station164Activity.csv");
+			writer = new BufferedWriter(fileWriter);
+			writer.write("Time,VehicleId,EventType");
+			List<String> stationActivity = stationEventHandler.getStationActivity();
+			for (String print : stationActivity) {
+				writer.newLine();
+				writer.write(print);
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			System.out.println("Writer writes StationChargings");
+			fileWriter = new FileWriter("scenario/2StationChargings.csv");
 			writer = new BufferedWriter(fileWriter);
 			writer.write("StationId,numberOfArrivals");
 		} catch (IOException e1) {
@@ -89,9 +106,8 @@ public class RunWithEventHandler {
 		}
 		
 		
-		Map<Station,Integer> stationArrivals = stationEventHandler.getStartRecharge();
+		Map<Station,Integer> stationArrivals = stationEventHandler.getStationArrivals();
 		for (Map.Entry<Station, Integer> entry : stationArrivals.entrySet()) {
-			System.out.println(entry.getKey().getId() +","+ entry.getValue());
 			try {
 				writer.newLine();
 				writer.write(entry.getKey().getId() +","+ entry.getValue());
@@ -100,7 +116,7 @@ public class RunWithEventHandler {
 				e.printStackTrace();
 			}
 		}
-		
+
 		
 		try {
 			writer.flush();
