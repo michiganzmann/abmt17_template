@@ -37,7 +37,7 @@ public class RunWithEventHandler {
 		String populationPath = "scenario/abmt_population.xml.gz";
 		String networkPath = "scenario/abmt_network.xml.gz";
 		
-		String eventsPath = "simulation_output/ITERS/it.2/2.events.xml.gz";
+		String eventsPath = "simulation_output/ITERS/it.1/1.events.xml.gz";
 		
 		
 		Config config = ConfigUtils.createConfig();
@@ -61,7 +61,7 @@ public class RunWithEventHandler {
 		StationReader reader = new StationReader(scenario.getNetwork(), tracker, eventsManager);
 		Collection<Station> stations = null;
 		try {
-			stations = reader.read(new File("scenario/stations_zuerich2.csv"));
+			stations = reader.read(new File("scenario/stations_zuerich3.csv"));
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +80,7 @@ public class RunWithEventHandler {
 		BufferedWriter writer = null;
 		
 		
-		try {
+		/*try {
 			System.out.println("Writer writes StationActivity");
 			fileWriter = new FileWriter("scenario/2Station164Activity.csv");
 			writer = new BufferedWriter(fileWriter);
@@ -94,10 +94,10 @@ public class RunWithEventHandler {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		*/
 		try {
 			System.out.println("Writer writes StationChargings");
-			fileWriter = new FileWriter("scenario/2StationChargings.csv");
+			fileWriter = new FileWriter("scenario/1StationArrivals.csv");
 			writer = new BufferedWriter(fileWriter);
 			writer.write("StationId,numberOfArrivals");
 		} catch (IOException e1) {

@@ -17,12 +17,16 @@ import org.matsim.core.scenario.ScenarioUtils;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
+
 import abmt17.pt.ABMTPTModule;
 import abmt17.scoring.ABMTScoringModule;
 import ch.ethz.matsim.av.electric.NewRechargingModule;
 import ch.ethz.matsim.av.electric.assets.battery.BatterySpecification;
 import ch.ethz.matsim.av.electric.assets.battery.DefaultBatterySpecification;
+import ch.ethz.matsim.av.electric.assets.station.EucledianStationFinder;
+import ch.ethz.matsim.av.electric.assets.station.ParallelFIFO;
 import ch.ethz.matsim.av.electric.assets.station.Station;
+import ch.ethz.matsim.av.electric.assets.station.StationFinder;
 import ch.ethz.matsim.av.electric.consumption.ConsumptionCalculator;
 import ch.ethz.matsim.av.electric.consumption.StaticConsumptionCalculator;
 import ch.ethz.matsim.av.electric.tracker.CSVConsumptionTracker;
@@ -32,6 +36,7 @@ import ch.ethz.matsim.av.framework.AVConfigGroup;
 import ch.ethz.matsim.av.framework.AVModule;
 import ch.ethz.matsim.av.framework.AVQSimProvider;
 import ch.ethz.matsim.baseline_scenario.analysis.simulation.ModeShareListenerModule;
+import ch.ethz.matsim.courses.abmt17_template.analysis.StationEventHandler;
 import ch.ethz.matsim.courses.abmt17_template.scoring.AVScoringModuleForABMT;
 
 /**
@@ -53,7 +58,7 @@ import ch.ethz.matsim.courses.abmt17_template.scoring.AVScoringModuleForABMT;
 public class RunScenarioExample {
 	static public void main(String[] args) {
 		String configPath = "scenario/abmt_config.xml";
-		String stationsPath = "scenario/stations_zuerich.csv";
+		String stationsPath = "scenario/stations_zuerich3.csv";
 		
 		
 			
@@ -81,6 +86,8 @@ public class RunScenarioExample {
 		// controler.addOverridingModule(new RechargingModule());
 		controler.addOverridingModule(new NewRechargingModule());
 		
+		//controler.getEvents().addHandler(new StationEventHandler());
+		
 		// Specify what the batteries look like and how the consumption works
 		controler.addOverridingModule(new AbstractModule() {
 			@Override
@@ -105,17 +112,18 @@ public class RunScenarioExample {
 				// Register the station reader
 				bind(StationReader.class);
 				
-				StationCreator creator = new StationCreator(scenario.getNetwork());
+				
+				
+				/*StationCreator creator = new StationCreator(scenario.getNetwork());
 				try {
 					creator.createFile(new File ("scenario/Gasstations.csv"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 				
 				
 			}
-			
 			
 			
 			// Provide the loaded stations
@@ -126,7 +134,16 @@ public class RunScenarioExample {
 				return reader.read(new File(stationsPath));
 			}
 		});
-
+		
+		/*controler.addOverridingModule(new AbstractModule() {
+            @Override
+            public void install() {
+                bind(StationFinder.class).to(SmartEucledianStationFinder.class);
+                bind(Station.class).to(NewParallelFIFO.class);
+                bind(StationQueue.class).to(NewParallelFIFO.class);
+            }
+        });
+		*/
 		controler.run();
 	}
 }
