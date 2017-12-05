@@ -41,8 +41,9 @@ public class RunWithEventHandler {
 		String configPath = "scenario/abmt_config.xml";
 		String populationPath = "scenario/abmt_population.xml.gz";
 		String networkPath = "scenario/abmt_network.xml.gz";
-		
-		String eventsPath = "simulation_output/ITERS/it.150/150.events.xml.gz";
+		String eventsPath = "simulation_output/ITERS/it.100/100.events.xml.gz";
+		String stationPath = "scenario/stations_zuerich50.csv";
+		String vehicleOutputPath = "scenario/100VehicleAnalysis.csv";
 		
 		Config config = ConfigUtils.loadConfig(configPath, new DvrpConfigGroup(), new AVConfigGroup());
 		//Config config = ConfigUtils.createConfig();
@@ -66,7 +67,7 @@ public class RunWithEventHandler {
 		StationReader reader = new StationReader(scenario.getNetwork(), tracker, eventsManager);
 		Collection<Station> stations = null;
 		try {
-			stations = reader.read(new File("scenario/stations_zuerich3.csv"));
+			stations = reader.read(new File(stationPath));
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -95,7 +96,7 @@ public class RunWithEventHandler {
 		
 		try {
 			System.out.println("Writer writes VehicleAnalysis");
-			fileWriter = new FileWriter("scenario/150VehicleAnalysis.csv");
+			fileWriter = new FileWriter(vehicleOutputPath);
 			writer = new BufferedWriter(fileWriter);
 			writer.write("VehicleId,DistanceWithPassenger,DistanceTotal,TimeWithPassenger,TimeTotal,Charge");
 		} catch (IOException e1) {

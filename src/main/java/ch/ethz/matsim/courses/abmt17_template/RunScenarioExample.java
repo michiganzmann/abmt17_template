@@ -58,11 +58,8 @@ import ch.ethz.matsim.courses.abmt17_template.scoring.AVScoringModuleForABMT;
 public class RunScenarioExample {
 	static public void main(String[] args) {
 		String configPath = "scenario/abmt_config.xml";
-		String stationsPath = "scenario/stations_zuerich3.csv";
+		String stationsPath = "scenario/stations_zuerich50.csv";
 		
-		
-			
-
 		// Load the config file (command line argument)
 		Config config = ConfigUtils.loadConfig(configPath, new DvrpConfigGroup(), new AVConfigGroup());
 
