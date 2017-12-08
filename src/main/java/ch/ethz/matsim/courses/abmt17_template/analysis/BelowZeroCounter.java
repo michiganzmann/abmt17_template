@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class BelowZeroCounter {
 
 	private final String warningFilePath;
@@ -17,8 +18,13 @@ public class BelowZeroCounter {
 		this.logFilePath = logFilePath;
 	}
 	
-	public Map<Integer, Integer> count() throws NumberFormatException, IOException {
-		
+	
+	/*	Goes through the Logfile and finds out start and end time of the Iteration
+	 *  Meanwhile search in this timslot für AV ChargeState dropped below zero
+	 *  Saves the amount of Errors in a Map (Key is the Iteration number 
+	 */
+	
+	public Map<Integer, Integer> count() {
 		
 		Map<Integer, Integer> belowZero = new HashMap<Integer, Integer>();
 		try {
@@ -33,6 +39,8 @@ public class BelowZeroCounter {
 			Integer endTime = null;
 			Integer it = null;
 			
+			
+		try {
 			while ( (logLine = logReader.readLine()) != null) {
 				if (logLine.contains("### ITERATION") && logLine.contains("BEGINS")) {
 					String[] lineSplit = logLine.split(" ");
@@ -64,18 +72,28 @@ public class BelowZeroCounter {
 					}
 				}
 			}
-			
-			logReader.close();
-			warningReader.close();
-			
+		
+		
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		logReader.close();
+		warningReader.close();
 		
 		return belowZero;
+		
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	private Integer timeToInt(String time ) {
