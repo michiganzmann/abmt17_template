@@ -1,4 +1,4 @@
-stationId,numberOfArrivals,linkId,numberOfQueues,rechargeRate,min Distance, x-coord,y-coord
+stationId,numberOfArrivals,linkId,numberOfQueues,rechargeRate,min Distance,x-coord,y-coord
 Station_166,53,519203,10,38.4,0.546022111,2666825,1257705
 Station_030,44,270017,10,38.4,5.028854496,2696007,1261320
 Station_114,32,763768,10,38.4,2.297464736,2665571,1253259

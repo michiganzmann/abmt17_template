@@ -21,7 +21,7 @@ public class BelowZeroCounter {
 	
 	/*	Goes through the Logfile and finds out start and end time of the Iteration
 	 *  Meanwhile search in this timslot für AV ChargeState dropped below zero
-	 *  Saves the amount of Errors in a Map (Key is the Iteration number 
+	 *  Saves the amount of Errors in a Map (Key is the Iteration number)
 	 */
 	
 	public Map<Integer, Integer> count() {
@@ -33,12 +33,17 @@ public class BelowZeroCounter {
 			BufferedReader logReader = new BufferedReader(fileReaderLog);
 			BufferedReader warningReader = new BufferedReader(fileReaderWarnings);
 			
+			
+			
 			String logLine = null;
 			String warningLine = null;
 			Integer startTime = null;
 			Integer endTime = null;
 			Integer it = null;
-			
+			warningLine = warningReader.readLine();
+			warningLine = warningReader.readLine();
+			warningLine = warningReader.readLine();
+			String warningTime = null;
 			
 		try {
 			while ( (logLine = logReader.readLine()) != null) {
@@ -57,18 +62,18 @@ public class BelowZeroCounter {
 					time = time.split(",")[0];
 					endTime = timeToInt(time);
 					
-					warningLine = warningReader.readLine();
-					warningLine = warningReader.readLine();
-					warningLine = warningReader.readLine();
-					String warningTime = warningLine.split(" ")[1].split(",")[0];
+					System.out.println(warningLine);
+					if(warningLine != null) {warningTime = warningLine.split(" ")[1].split(",")[0];}
 					int warTime = timeToInt(warningTime);
-					while (warTime < endTime) {
+					while (warTime < endTime && warningLine!=null) {
 						if (warningLine.contains("dropped below zero!")) {
 							belowZero.put(it, belowZero.get(it)+1);
 						}
 						warningLine = warningReader.readLine();
-						warningTime = warningLine.split(" ")[1].split(",")[0];
-						warTime = timeToInt(warningTime);
+						if (warningLine != null) {
+							warningTime = warningLine.split(" ")[1].split(",")[0];
+							warTime = timeToInt(warningTime);
+						}
 					}
 				}
 			}

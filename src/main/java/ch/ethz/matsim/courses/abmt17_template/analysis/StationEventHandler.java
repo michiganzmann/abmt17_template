@@ -78,6 +78,10 @@ public class StationEventHandler implements GenericEventHandler {
 	public Map<Station,Integer> getStartRecharge() {
 		return this.startRecharge;
 	}
+	
+	public Map<Station,Integer> getEndRecharge() {
+		return this.endRecharge;
+	}
 
 
 	private void setStationActivity(int station, GenericEvent event) {
